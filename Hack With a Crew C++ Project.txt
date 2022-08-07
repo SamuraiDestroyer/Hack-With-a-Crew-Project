@@ -1,0 +1,407 @@
+#include <iostream>
+#include <math.h>
+#include <string.h>
+
+using namespace std;
+
+int decimal_to_binary(int decimal) {
+  int binary[10] = {};
+  int result = 0;
+  int mod = 0;
+  int i = 0;
+
+  while(decimal > 0){
+    mod = decimal % 2;
+    binary[i] = mod;
+    decimal = decimal / 2;
+    i++;
+  }
+
+  while(i >= 0) {
+    result = result + (pow(10, i) * binary[i]);
+    i--;
+  }
+  return result;
+}
+
+int decimal_to_octal(int decimal) {
+  int octal[10] = {};
+  int mod1 = 0;
+  int result1 = 0;
+  int j = 0;
+
+  while(decimal > 0){
+    mod1 = decimal % 8;
+    octal[j] = mod1;
+    decimal = decimal / 8;
+    j++;
+  }
+
+  while(j >= 0){
+    result1 = result1 + (pow(10, j) * octal[j]);
+    j--;
+  }
+
+  return result1;
+}
+
+string decimal_to_hexadecimal(int decimal) {
+  char hexadecimal[10] = {'\0'};
+  char answer[10] = {'\0'};
+  int mod2 = 0;
+  int k = 0;
+  int z = 0;
+  string result2 = "";
+
+  while(decimal > 0){
+    mod2 = decimal % 16;
+
+    switch (mod2) {
+      case 10:
+        hexadecimal[k] = 'A';
+      break;
+
+      case 11:
+        hexadecimal[k] = 'B';
+      break;
+
+      case 12:
+        hexadecimal[k] = 'C';
+      break;
+
+      case 13:
+        hexadecimal[k] = 'D';
+      break;
+
+      case 14:
+        hexadecimal[k] = 'E';
+      break;
+
+      case 15:
+        hexadecimal[k] = 'F';
+      break;
+
+      default:
+        hexadecimal[k] = mod2 + 48;
+      break;
+    }
+    k++;
+    decimal = decimal / 16;
+  }
+  k--;
+
+  for(int z = 0; k >= 0; z++){
+    answer[z] = hexadecimal[k];
+    k--;
+  }
+
+  result2.append(answer);
+
+  return result2;
+}
+
+int binary_to_decimal (int binary) {
+  int mod = 0;
+  int result = 0;
+
+  for(int i = 0; binary > 0; i++){
+    mod = binary % 10;
+    result = result + (pow(2, i) * mod);
+    binary = binary / 10;
+  }
+
+  return result;
+}
+
+int octal_to_decimal (int octal) {
+  int mod1 = 0;
+  int result1 = 0;
+
+  for(int j = 0; octal > 0; j++){
+    mod1 = octal % 10;
+    result1 = result1 + (pow(8, j) * mod1);
+    octal = octal / 10;
+  }
+
+  return result1;
+}
+
+int hexadecimal_to_decimal (string hexadecimal) {
+  int result2 = 0;
+  int z = 0;
+
+  z = hexadecimal.length();
+  z--;
+  
+  for(int k = 0; z >= 0; k++){
+    
+    switch(hexadecimal[z]){
+      case 'A':
+        result2 = result2 + (pow(16, k) * 10);
+      break;
+
+      case 'B':
+        result2 = result2 + (pow(16, k) * 11);
+      break;
+
+      case 'C':
+        result2 = result2 + (pow(16, k) * 12);
+      break;
+
+      case 'D':
+        result2 = result2 + (pow(16, k) * 13);
+      break;
+
+      case 'E':
+        result2 = result2 + (pow(16, k) * 14);
+      break;
+
+      case 'F':
+        result2 = result2 + (pow(16, k) * 15);
+      break;
+
+      default:
+        result2 = result2 + ((pow(16, k)) * (hexadecimal[z]-48));
+      break;
+    }
+    z--;
+  }
+
+  return result2;
+}
+
+int main() {
+  int choose = 0;
+  int decimal = 0;
+  int binary = 0;
+  int octal = 0;
+  string hexadecimal = "\0";
+  char options = '\0';
+  char choice = '\0';
+  char decision = '\0';
+  cout << "Choose (0) to convert decimal to binary, hexadecimal, or octal, (1) to convert binary, hexadecimal, and octal to decimal, (2) to convert binary to hexadecimal and octal, (3) to convert octal to binary and hexadecimal, or (4) to convert hexadecimal to binary and octal: ";
+  
+  cin >> choose;
+  cout << endl;
+  
+  if(choose == 0){
+    
+    while(1){
+      cout << "Welcome to the converting decimal to binary, hexadecimal, or octal calculator." << endl;  
+
+      cout << endl;
+      
+      cout << "Please enter the decimal number: ";
+
+      cin >> decimal;
+
+      cout << endl;
+
+      cout << "Please enter the option to convert the decimal number: Binary(b/B) / Octal (o/O) / hexadecimal (h/H): ";
+
+      cin >> options;
+
+      cout << endl;
+
+      if(options == 'b' || options == 'B'){
+
+        cout << "Binary Number: " << decimal_to_binary(decimal) << endl;
+      } else if(options == 'o' || options == 'O'){
+
+        cout << "Octal Number: " << decimal_to_octal(decimal) << endl;
+      } else {
+
+        cout << "Hexadecimal Number: " << decimal_to_hexadecimal(decimal) << endl;
+      }
+      cout << endl;
+
+      cout << "Do you want to continue (Y/y (yes) / N/n (no)): ";
+      cin >> choice;
+
+      if(choice == 'y' || choice == 'Y'){
+        continue;
+      } else {
+        break;
+      }
+    }
+  } else if(choose == 1){
+
+    while(1) {
+      cout << "Welcome to the converting binary, hexadecimal, and octal to decimal calculator." << endl;  
+
+      cout << endl;
+
+      cout << "Choose to convert to decimal: (B/b (binary) / O/o (octal) / H/h (hexadecimal): ";
+
+      cin >> decision;
+
+      cout << endl;
+
+      if(decision == 'b' || decision == 'B'){
+
+        cout << "Please enter the binary number: ";
+
+        cin >> binary;
+
+        cout << endl;
+
+        cout << "Decimal Number: " << binary_to_decimal(binary) << endl;
+      } else if(decision == 'o' || decision == 'O'){
+
+        cout << "Please enter the octal number: ";
+
+        cin >> octal;
+
+        cout << endl;
+
+        cout << "Decimal Number: " << octal_to_decimal(octal) << endl;
+      } else {
+
+        cout << "Please enter the hexadecimal number: ";
+
+        cin >> hexadecimal;
+
+        cout << endl;
+
+        cout << "Decimal Number: " << hexadecimal_to_decimal(hexadecimal) << endl;
+      }
+      cout << endl;
+
+      cout << "Do you want to continue (Y/y (yes) / N/n (no)): ";
+      cin >> choice;
+
+      if(choice == 'y' || choice == 'Y'){
+          continue;
+      } else {
+        break;
+      }
+    }  
+  } else if(choose == 2){
+      while(1){
+        cout << "Welcome to the converting binary to hexadecimal and octal calculator." << endl;  
+
+        cout << endl;
+
+        cout << "Choose to convert to binary: O/o (octal) / H/h (hexadecimal): ";
+
+        cin >> decision;
+
+        cout << endl;
+
+        if(decision == 'O' || decision == 'o'){
+          
+          cout << "Please enter the binary number: ";
+
+          cin >> binary;
+
+          cout << endl;
+
+          cout << "Octal Number: " << decimal_to_octal(binary_to_decimal(binary)) << endl;
+        } else {
+
+          cout << "Please enter the binary number: ";
+
+          cin >> binary;
+
+          cout << endl;
+
+          cout << "Hexadecimal Number: " << decimal_to_hexadecimal(binary_to_decimal(binary)) << endl;
+        }
+        cout << endl;
+
+        cout << "Do you want to continue (Y/y (yes) / N/n (no)): ";
+        cin >> choice;
+
+        if(choice == 'y' || choice == 'Y'){
+          continue;
+        } else {
+          break;
+        }
+      }
+  } else if(choose == 3){
+      while(1){
+        cout << "Welcome to the converting octal to binary and hexadecimal calculator." << endl;  
+
+        cout << endl;
+
+        cout << "Choose to convert to octal: B/b (binary) / H/h (hexadecimal): ";
+
+        cin >> decision;
+
+        cout << endl;
+
+        if(decision == 'B' || decision == 'b'){
+          
+          cout << "Please enter the octal number: ";
+
+          cin >> octal;
+
+          cout << endl;
+
+          cout << "Binary Number: " << decimal_to_binary(octal_to_decimal(octal)) << endl;
+        } else {
+
+          cout << "Please enter the octal number: ";
+
+          cin >> octal;
+
+          cout << endl;
+
+          cout << "Hexadecimal Number: " << decimal_to_hexadecimal(octal_to_decimal(octal)) << endl;
+        }
+        cout << endl;
+
+        cout << "Do you want to continue (Y/y (yes) / N/n (no)): ";
+        cin >> choice;
+
+        if(choice == 'y' || choice == 'Y'){
+          continue;
+        } else {
+          break;
+        }
+      }
+  } else {
+      while(1){
+        cout << "Welcome to the converting hexadecimal to binary and octal calculator." << endl;  
+
+        cout << endl;
+
+        cout << "Choose to convert to hexadecimal: O/o (octal) / B/b (binary): ";
+
+        cin >> decision;
+
+        cout << endl;
+
+        if(decision == 'O' || decision == 'o'){
+          
+          cout << "Please enter the hexadecimal number: ";
+
+          cin >> hexadecimal;
+
+          cout << endl;
+
+          cout << "Octal Number: " << decimal_to_octal(hexadecimal_to_decimal(hexadecimal)) << endl;
+        } else {
+
+          cout << "Please enter the hexadecimal number: ";
+
+          cin >> hexadecimal;
+
+          cout << endl;
+
+          cout << "Binary Number: " << decimal_to_binary(hexadecimal_to_decimal(hexadecimal)) << endl;
+        }
+        cout << endl;
+
+        cout << "Do you want to continue (Y/y (yes) / N/n (no)): ";
+        cin >> choice;
+
+        if(choice == 'y' || choice == 'Y'){
+          continue;
+        } else {
+          break;
+        }
+      }
+  }
+  cout << "See Ya! Thanks!" << endl;
+}
